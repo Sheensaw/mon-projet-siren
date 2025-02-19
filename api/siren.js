@@ -1,3 +1,5 @@
+// api/siren.js
+
 export default async function handler(req, res) {
 <<<<<<< HEAD
   // Vérifie que la méthode HTTP est GET
