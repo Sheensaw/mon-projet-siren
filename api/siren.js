@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     // Construire l'URL de l'API Siren 3.11.
     // Ici, nous utilisons l'exemple de l'API Sirene de l'INSEE.
     // Adaptez cette URL si votre API diffère.
-    const apiUrl = `https://api.insee.fr/entreprises/sirene/V3/siret/${siret}`;
+    const apiUrl = `https://api.insee.fr/entreprises/sirene/V3.11/siret/${siret}`;
 
     // Récupérer le token d'accès depuis les variables d'environnement
     const accessToken = process.env.INSEE_ACCESS_TOKEN;
