@@ -1,5 +1,7 @@
 {
-  "build": {
-    "includeFiles": ["data/codes.xlsx"]
+  "functions": {
+    "api/siren.js": {
+      "includeFiles": "data/codes.xlsx"
+    }
   }
 }
