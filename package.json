@@ -1,0 +1,13 @@
+{
+  "name": "eopps-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "vercel build"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}

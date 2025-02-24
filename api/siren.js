@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Token d'accès INSEE manquant" });
     }
 
-    // Appel à l'API Sirene avec le token
+    // Appel à l'API Sirene avec le token dans l'en-tête
     const response = await fetch(apiUrl, {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
@@ -52,9 +52,9 @@ export default async function handler(req, res) {
       entityName = etablissement.uniteLegale.denominationUniteLegale ||
                    etablissement.uniteLegale.nomUniteLegale;
       
-      // Extraction du code de la catégorie juridique
+      // Récupération du code de la catégorie juridique
       const rawCategorie = etablissement.uniteLegale.categorieJuridiqueUniteLegale;
-      // Utilisation du mapping chargé depuis l'Excel pour obtenir la mention complète
+      // Utilisation du mapping chargé depuis Excel pour obtenir la mention complète
       if (rawCategorie && categorieMapping[rawCategorie]) {
         categorieJuridique = categorieMapping[rawCategorie];
       } else {
