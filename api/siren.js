@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // URL mise à jour pour utiliser la version V3.11 de l'API
+    // URL pour la version V3.11 de l'API Sirene
     const apiUrl = `https://api.insee.fr/entreprises/sirene/V3.11/siret/${siret}`;
     
     // Récupération du token d'accès depuis les variables d'environnement
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Token d'accès INSEE manquant" });
     }
 
-    // Appel à l'API Sirene avec le token dans l'en-tête
+    // Appel à l'API Sirene avec le token
     const response = await fetch(apiUrl, {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       }
     });
 
-    // Si la réponse n'est pas ok, loguez l'erreur et renvoyez le message
+    // Gestion des erreurs de réponse
     if (!response.ok) {
       const errorText = await response.text();
       console.error('API Error:', response.status, errorText);
@@ -39,23 +39,22 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-
-    // Extraction du nom de l'entité avec les champs mis à jour
     const etablissement = data.etablissement;
     let entityName = null;
+    let categorieJuridique = null;
     if (etablissement && etablissement.uniteLegale) {
       entityName = etablissement.uniteLegale.denominationUniteLegale ||
                    etablissement.uniteLegale.nomUniteLegale;
+      categorieJuridique = etablissement.uniteLegale.categorieJuridiqueUniteLegale;
     }
 
     if (!entityName) {
       return res.status(404).json({ error: "Nom de l'entité introuvable dans la réponse de l'API" });
     }
 
-    // Renvoie le SIRET et le nom de l'entité
-    return res.status(200).json({ siret, entityName });
+    // Renvoie le SIRET, le nom de l'entité et la catégorie juridique
+    return res.status(200).json({ siret, entityName, categorieJuridique });
   } catch (error) {
-    // Log de l'erreur pour aider au débogage
     console.error('Function Error:', error);
     return res.status(500).json({ error: error.message });
   }
