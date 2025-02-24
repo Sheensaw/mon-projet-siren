@@ -1,11 +1,8 @@
 // api/siren.js
 
-// Table de correspondance pour la catégorie juridique
-const categorieMapping = {
-  "1000": "1000 - Entrepreneur individuel",
-  "2000": "2000 - Société par Actions Simplifiée",
-  // Ajoutez ici les autres correspondances selon la documentation officielle...
-};
+import { loadCategorieMapping } from '../dataLoader.js';
+
+const categorieMapping = loadCategorieMapping();
 
 export default async function handler(req, res) {
   // Vérifie que la méthode HTTP est GET
@@ -57,7 +54,7 @@ export default async function handler(req, res) {
       
       // Récupération du code de la catégorie juridique
       const rawCategorie = etablissement.uniteLegale.categorieJuridiqueUniteLegale;
-      // Utilisation de la table de correspondance pour obtenir la mention complète
+      // Utilisation du mapping chargé depuis le fichier Excel pour obtenir la mention complète
       if (rawCategorie && categorieMapping[rawCategorie]) {
         categorieJuridique = categorieMapping[rawCategorie];
       } else {
