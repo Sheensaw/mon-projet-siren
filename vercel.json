@@ -1,0 +1,5 @@
+{
+  "build": {
+    "includeFiles": ["data/codes.xlsx"]
+  }
+}
