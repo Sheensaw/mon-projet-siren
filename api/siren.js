@@ -1,5 +1,12 @@
 // api/siren.js
 
+// Table de correspondance pour la catégorie juridique
+const categorieMapping = {
+  "1000": "1000 - Entrepreneur individuel",
+  "2000": "2000 - Société par Actions Simplifiée",
+  // Ajoutez ici les autres correspondances selon la documentation officielle...
+};
+
 export default async function handler(req, res) {
   // Vérifie que la méthode HTTP est GET
   if (req.method !== 'GET') {
@@ -23,7 +30,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Token d'accès INSEE manquant" });
     }
 
-    // Appel à l'API Sirene avec le token
+    // Appel à l'API Sirene avec le token dans l'en-tête
     const response = await fetch(apiUrl, {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
@@ -31,7 +38,7 @@ export default async function handler(req, res) {
       }
     });
 
-    // Gestion des erreurs de réponse
+    // Si la réponse n'est pas ok, loguez l'erreur et renvoyez le message
     if (!response.ok) {
       const errorText = await response.text();
       console.error('API Error:', response.status, errorText);
@@ -39,20 +46,30 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
+
+    // Extraction des informations depuis l'API
     const etablissement = data.etablissement;
     let entityName = null;
     let categorieJuridique = null;
     if (etablissement && etablissement.uniteLegale) {
       entityName = etablissement.uniteLegale.denominationUniteLegale ||
                    etablissement.uniteLegale.nomUniteLegale;
-      categorieJuridique = etablissement.uniteLegale.categorieJuridiqueUniteLegale;
+      
+      // Récupération du code de la catégorie juridique
+      const rawCategorie = etablissement.uniteLegale.categorieJuridiqueUniteLegale;
+      // Utilisation de la table de correspondance pour obtenir la mention complète
+      if (rawCategorie && categorieMapping[rawCategorie]) {
+        categorieJuridique = categorieMapping[rawCategorie];
+      } else {
+        categorieJuridique = rawCategorie;
+      }
     }
 
     if (!entityName) {
       return res.status(404).json({ error: "Nom de l'entité introuvable dans la réponse de l'API" });
     }
 
-    // Renvoie le SIRET, le nom de l'entité et la catégorie juridique
+    // Renvoie le SIRET, le nom de l'entité et la catégorie juridique complète
     return res.status(200).json({ siret, entityName, categorieJuridique });
   } catch (error) {
     console.error('Function Error:', error);
