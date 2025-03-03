@@ -1,6 +1,6 @@
 // api/siren.js
 
-import { loadCategorieMapping } from '../dataLoader.js';
+import { loadCategorieMapping } from './dataLoader.js';
 
 const categorieMapping = loadCategorieMapping();
 
