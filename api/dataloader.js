@@ -12,17 +12,18 @@ export function loadCategorieMapping() {
   const workbook = xlsx.readFile(filePath);
   const sheetName = workbook.SheetNames[0];
   const sheet = workbook.Sheets[sheetName];
+  
   // Lecture du fichier Excel sous forme d'un tableau (la première ligne contient les entêtes)
   const jsonData = xlsx.utils.sheet_to_json(sheet, { header: 1 });
-  
   const mapping = {};
+  
   // Parcours à partir de la deuxième ligne (index 1)
   for (let i = 1; i < jsonData.length; i++) {
     const row = jsonData[i];
     const code = row[0];
     const libelle = row[1];
     if (code && libelle) {
-      // Concatène code et libellé au format "code - libellé"
+      // Format "code - libellé"
       mapping[code] = `${code} - ${libelle}`;
     }
   }
