@@ -1,7 +1,17 @@
 {
-  "functions": {
-    "api/siren.js": {
-      "includeFiles": "data/codes.xlsx"
-    }
-  }
+  "name": "eopps-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "vercel build"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  },
+  "files": [
+    "dataLoader.js",
+    "api/"
+  ]
 }
