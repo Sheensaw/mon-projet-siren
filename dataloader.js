@@ -12,7 +12,7 @@ export function loadCategorieMapping() {
   const workbook = xlsx.readFile(filePath);
   const sheetName = workbook.SheetNames[0];
   const sheet = workbook.Sheets[sheetName];
-  // Récupère les données sous forme de tableau d'array (première ligne = entêtes)
+  // Lecture du fichier Excel sous forme d'un tableau (la première ligne contient les entêtes)
   const jsonData = xlsx.utils.sheet_to_json(sheet, { header: 1 });
   
   const mapping = {};

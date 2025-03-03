@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/siren.js": {
-      "includeFiles": "data/codes.xlsx"
+      "includeFiles": ["data/codes.xlsx", "dataLoader.js"]
     }
   }
 }
