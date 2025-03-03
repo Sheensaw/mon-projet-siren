@@ -1,10 +1,8 @@
 {
   "name": "eopps-server",
   "version": "1.0.0",
-  "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "echo 'No build required'"
+    "dev": "vercel dev"
   }
 }
