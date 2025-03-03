@@ -4,5 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "vercel dev"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
   }
 }
